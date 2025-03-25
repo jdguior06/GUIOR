@@ -2,8 +2,8 @@ import axios from 'axios';
 import { clearAuth } from '../reducers/authSlice';
 
 const api = axios.create({
-  // baseURL: 'https://artistic-balance-production.up.railway.app/guior',
-  baseURL: 'http://localhost:8080/guior',
+  baseURL: 'https://artistic-balance-production.up.railway.app/guior',
+  // baseURL: 'http://localhost:8080/guior',
 });
 
 export const setAuthInterceptor = (store) => {
