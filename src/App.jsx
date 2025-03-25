@@ -39,6 +39,7 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import HomePage from "./pages/HomePage";
 import Home from "./pages/Home";
+import CajaSesionPage from "./pages/CajaSesionPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -50,7 +51,7 @@ function App() {
       if (authData?.token) {
         try {
           const response = await api.get("/auth/me");
-          console.log(response.data)
+          // console.log(response.data)
           if (!response.data) {
             dispatch(clearAuth());
           }
@@ -112,6 +113,7 @@ function App() {
               <Route path="/permisos" element={<PermisosPage />} />
               <Route path="/usuarios" element={<UsuariosPage />} />
               <Route path="/ventas" element={<VentasPage />} />
+              <Route path="/caja-sesion" element={<CajaSesionPage />} />
               <Route path="/temas" element={<ThemeSettings />} />
               <Route
                 path="/sucursales"

@@ -1,4 +1,3 @@
-// CierreCajaModal.jsx
 const CierreCajaModal = ({ open, onClose, sesionData }) => {
   if (!open) return null;
 

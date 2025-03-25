@@ -1,8 +1,6 @@
-import React from 'react';
-import { Menu, Home, ShoppingCart, ClipboardList } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Menu, } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import ThemedButton from './ThemedButton';
+import logoguior from "../assets/logoguior1.jpg";
 
 const Navbar = ({ toggleSidebar }) => {
   const { theme } = useTheme();
@@ -17,6 +15,13 @@ const Navbar = ({ toggleSidebar }) => {
         <button onClick={toggleSidebar} className="lg:hidden">
           <Menu size={24} className="text-white hover:text-red-300 transition duration-200" />
         </button>
+        <div>
+          <img
+            src={logoguior}
+            alt="Banner de la plataforma"
+            className="w-10 h-10 md:w-10 md:h-10 lg:w-10 lg:h-10  object-contain"
+          />
+        </div>
         <h1 className="text-2xl font-bold tracking-wide">PAYEJALI</h1>
       </div>
 

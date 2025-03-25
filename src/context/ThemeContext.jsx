@@ -8,7 +8,7 @@ export const ThemeProvider = ({ children }) => {
     const themes = {
         light: {
             name: "light",
-            primaryColor: '#1677FF',
+            primaryColor: '#750E97',
             backgroundColor: '#FFFFFF',
             textColor: '#000000',
             borderRadius: 4,
@@ -24,7 +24,7 @@ export const ThemeProvider = ({ children }) => {
         },
         document: {
             name: "document",
-            primaryColor: '#4CAF50',
+            primaryColor: '#750E97',
             backgroundColor: '#F3F4F6',
             textColor: '#000000',
             borderRadius: 4,

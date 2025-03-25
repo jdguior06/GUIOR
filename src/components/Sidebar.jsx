@@ -65,7 +65,7 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedSucursal }) => {
             >
               <HomeIcon className="w-5 h-5 mr-2" /> Todas las Sucursales
             </Link>
-            {/* <PermissionWrapper permission={"PERMISO_VER_REPORTE_VENTAS"}> */}
+            <PermissionWrapper permission={"PERMISO_VER_REPORTE_VENTAS"}>
               <Link
                 to="/ventas"
                 className={`flex items-center py-2 px-3 rounded-lg transition duration-200 hover:bg-red-600 ${
@@ -74,7 +74,15 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedSucursal }) => {
               >
                 <ShoppingCartIcon className="w-5 h-5 mr-2" /> Ventas
               </Link>
-            {/* </PermissionWrapper> */}
+              <Link
+                to="/caja-sesion"
+                className={`flex items-center py-2 px-3 rounded-lg transition duration-200 hover:bg-red-600 ${
+                  location.pathname === "/caja-sesion" ? "bg-red-700" : ""
+                }`}
+              >
+                <ShoppingCartIcon className="w-5 h-5 mr-2" /> Sesiones de caja
+              </Link>
+            </PermissionWrapper>
           </>
         ) : (
           <>
@@ -244,7 +252,7 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedSucursal }) => {
           </Link>
         </PermissionWrapper>
 
-        <Link
+        {/* <Link
           to="/settings"
           className={`flex items-center py-2 px-3 rounded-lg transition duration-200 hover:bg-red-600 ${
             location.pathname.includes("/settings") ? "bg-red-700" : ""
@@ -260,7 +268,7 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedSucursal }) => {
           }`}
         >
           <CogIcon className="w-5 h-5 mr-2" /> Temas
-        </Link>
+        </Link> */}
       </nav>
 
       <button

@@ -19,7 +19,8 @@ import {
 import { useTheme } from "../context/ThemeContext";
 import { verificarSesionAbierta } from "../reducers/cajaSesionSlice";
 import ThemedButton from "../components/ThemedButton";
-import { showNotification } from '../utils/toast';
+import { showNotification } from "../utils/toast";
+import PermissionWrapper from "../components/PermissionWrapper";
 
 const CajasPage = () => {
   const dispatch = useDispatch();
@@ -142,11 +143,14 @@ const CajasPage = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <ThemedButton variant="primary" onClick={() => handleOpenModal()}>
-            Crear Caja
-          </ThemedButton>
+          <PermissionWrapper permission="PERMISO_ADMINISTRAR_SUCURSALES">
+            <ThemedButton variant="primary" onClick={() => handleOpenModal()}>
+              Crear Caja
+            </ThemedButton>
+          </PermissionWrapper>
 
           <div className="flex items-center ml-4">
+          <PermissionWrapper permission="PERMISO_ADMINISTRAR_SUCURSALES">
             <input
               type="checkbox"
               id="showInactive"
@@ -157,6 +161,7 @@ const CajasPage = () => {
             <label htmlFor="showInactive" style={{ color: theme.textColor }}>
               Mostrar inactivos
             </label>
+            </PermissionWrapper>
           </div>
         </div>
 
@@ -174,10 +179,14 @@ const CajasPage = () => {
                 <strong> ID: </strong>
                 {caja.id}
               </p>
-              <p className="text-sm"> <strong>Sucursal: </strong> {caja.sucursal?.nombre || "N/A"}</p>
+              <p className="text-sm">
+                {" "}
+                <strong>Sucursal: </strong> {caja.sucursal?.nombre || "N/A"}
+              </p>
 
               {/* Acciones */}
               <div className="flex justify-between mt-4">
+              <PermissionWrapper permission="PERMISO_ADMINISTRAR_SUCURSALES">
                 <button
                   className="text-white bg-blue-500 hover:bg-blue-600 py-1 px-3 rounded-lg shadow-sm flex items-center transition transform hover:scale-105"
                   onClick={() => handleOpenModal(caja)}
@@ -198,6 +207,8 @@ const CajasPage = () => {
                     <ArrowPathIcon className="h-5 w-5 mr-1" />
                   )}
                 </button>
+                </PermissionWrapper>
+                
                 <button
                   className="text-white py-1 px-3 bg-yellow-500 hover:bg-yellow-600 rounded-lg shadow-sm flex items-center transition transform hover:scale-105"
                   onClick={() => handleOpenAperturaModal(caja)}

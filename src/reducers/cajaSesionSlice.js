@@ -1,6 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { aperturaCajaApi, cierreCajaApi, verificarSesionAbiertaApi } from '../services/cajaSesionService';
+import { aperturaCajaApi, cierreCajaApi, fetchCajasSesionApi, verificarSesionAbiertaApi } from '../services/cajaSesionService';
 import { realizarVentaApi } from '../services/ventaService';
+
+export const fetchCajasSesion = createAsyncThunk(
+  'cajaSesion/fetchCajaSesion',
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await fetchCajasSesionApi();
+      // console.log(data);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 // Acción para apertura de caja
 export const aperturaCaja = createAsyncThunk(
@@ -38,13 +51,13 @@ export const verificarSesionAbierta = createAsyncThunk(
     const { status, data, message } = await verificarSesionAbiertaApi(idCaja);
 
     if (status === 200) {
-      return { sesion: data, mismaSesion: true }; 
+      return { sesion: data, mismaSesion: true };
     } else if (status === 403) {
       return rejectWithValue({ mismaSesion: false, message: 'Sesión abierta por otro usuario' });
     } else if (status === 204) {
-      return { sesion: null, mismaSesion: true }; 
+      return { sesion: null, mismaSesion: true };
     } else {
-      return rejectWithValue({ mismaSesion: null, message }); 
+      return rejectWithValue({ mismaSesion: null, message });
     }
   }
 );
@@ -65,6 +78,7 @@ export const realizarVenta = createAsyncThunk(
 const cajaSesionSlice = createSlice({
   name: 'cajaSesion',
   initialState: {
+    cajaSesiones: [],
     cajaSesion: null,
     loading: false,
     error: null,
@@ -77,6 +91,18 @@ const cajaSesionSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(fetchCajasSesion.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchCajasSesion.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cajaSesiones = action.payload || [];
+      })
+      .addCase(fetchCajasSesion.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
       .addCase(aperturaCaja.pending, (state) => {
         state.loading = true;
         state.error = null;

@@ -89,12 +89,12 @@ const PosPage = () => {
       showNotification.error("El carrito está vacío. Agrega productos antes de pagar.");
       return;
     }
-    if (selectedCliente && !selectedCliente.id) {
-      showNotification.error(
-        "Error: El cliente seleccionado no tiene un ID válido. Por favor, seleccione el cliente nuevamente."
-      );
-      return;
-    }
+    // if (selectedCliente && !selectedCliente.id) {
+    //   showNotification.error(
+    //     "Error: El cliente seleccionado no tiene un ID válido. Por favor, seleccione el cliente nuevamente."
+    //   );
+    //   return;
+    // }
     setErrorVenta("");
     setIsMetodoPagoModalOpen(true);
   };
@@ -106,10 +106,10 @@ const PosPage = () => {
         return;
       }
 
-      if (!selectedCliente) {
-        showNotification.error("Por favor seleccione un cliente");
-        return;
-      }
+      // if (!selectedCliente) {
+      //   showNotification.error("Por favor seleccione un cliente");
+      //   return;
+      // }
 
       if (!metodosPago || metodosPago.length === 0) {
         showNotification.error("Debe especificar al menos un método de pago");
@@ -347,11 +347,11 @@ const PosPage = () => {
                   className="flex items-center justify-between bg-gray-50 border rounded-lg shadow-sm p-4"
                 >
                   <div className="flex items-center">
-                    <img
+                    {/* <img
                       src={item.foto || "https://via.placeholder.com/60"}
                       alt={item.nombre}
                       className="w-16 h-16 object-cover rounded-lg mr-4"
-                    />
+                    /> */}
                     <div>
                       <h3 className="text-lg font-semibold text-gray-700">
                         {item.nombre}
