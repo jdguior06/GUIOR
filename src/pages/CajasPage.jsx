@@ -124,7 +124,7 @@ const CajasPage = () => {
         idSucursal={id}
       />
 
-      <div className="container mx-auto p-6">
+      <div className="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-lg border border-gray-200">
         <h2 className="text-2xl font-bold mb-6 text-center">
           Gestión de Cajas
         </h2>
@@ -165,13 +165,12 @@ const CajasPage = () => {
           </div>
         </div>
 
-        {/* Grid de cajas */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
           {filteredCajas.map((caja) => (
             <div
               key={caja.id}
               className={`p-4 rounded-lg shadow-lg transition ${
-                caja.activo ? "bg-white" : "bg-gray-300"
+                caja.activo ? "bg-green-200" : "bg-red-200 text-red-900"
               }`}
             >
               <h3 className="text-xl font-bold mb-2">Caja {caja.nombre}</h3>

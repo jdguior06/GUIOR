@@ -68,13 +68,13 @@ const VentasPage = () => {
           className="border px-4 py-2 rounded"
         />
         <input
-          type="date"
+          type="datetime-local"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
           className="border px-4 py-2 rounded"
         />
         <input
-          type="date"
+          type="datetime-local"
           value={endDate}
           onChange={(e) => setEndDate(e.target.value)}
           className="border px-4 py-2 rounded"

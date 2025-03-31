@@ -3,17 +3,17 @@ import {
   XMarkIcon,
   HomeIcon,
   UsersIcon,
-  ChartBarIcon,
-  CogIcon,
   ShoppingCartIcon,
   CubeIcon,
   UserIcon,
   TruckIcon,
-  ArrowRightOnRectangleIcon,
   ChevronDownIcon,
   ChevronUpIcon,
   ShieldCheckIcon,
   UserGroupIcon,
+  ChartBarIcon,
+  LockClosedIcon,
+  ComputerDesktopIcon,
 } from "@heroicons/react/24/outline";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -145,7 +145,7 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedSucursal }) => {
                 location.pathname.includes("/cajas") ? "bg-red-700" : ""
               }`}
             >
-              <TruckIcon className="w-5 h-5 mr-2" /> Cajas
+              <ComputerDesktopIcon className="w-5 h-5 mr-2" /> Cajas
             </Link>
             {/* <Link
               to={`/reportes`}
@@ -208,7 +208,6 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedSucursal }) => {
           </PermissionWrapper>
         </div>
 
-        {/* Más opciones de navegación */}
         <PermissionWrapper permission={"PERMISO_VER_CLIENTES"}>
           <Link
             to="/clientes"
@@ -228,6 +227,19 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedSucursal }) => {
             }`}
           >
             <TruckIcon className="w-5 h-5 mr-2" /> Proveedores
+          </Link>
+        </PermissionWrapper>
+
+        <PermissionWrapper permission={"PERMISO_VER_REPORTE_VENTAS"}>
+          <Link
+            to={`/reportes-productos`}
+            className={`flex items-center py-2 px-3 rounded-lg transition duration-200 hover:bg-red-600 ${
+              location.pathname.includes("/reportes-productos")
+                ? "bg-red-700"
+                : ""
+            }`}
+          >
+            <ChartBarIcon className="w-5 h-5 mr-2" /> Reportes
           </Link>
         </PermissionWrapper>
 
@@ -252,33 +264,28 @@ const Sidebar = ({ isOpen, toggleSidebar, selectedSucursal }) => {
           </Link>
         </PermissionWrapper>
 
-        {/* <Link
-          to="/settings"
-          className={`flex items-center py-2 px-3 rounded-lg transition duration-200 hover:bg-red-600 ${
-            location.pathname.includes("/settings") ? "bg-red-700" : ""
-          }`}
-        >
-          <CogIcon className="w-5 h-5 mr-2" /> Configuración
-        </Link>
-
         <Link
-          to="/temas"
+          to="/cambiar-contraseña"
           className={`flex items-center py-2 px-3 rounded-lg transition duration-200 hover:bg-red-600 ${
-            location.pathname.includes("/temas") ? "bg-red-700" : ""
+            location.pathname.includes("/cambiar-contraseña")
+              ? "bg-red-700"
+              : ""
           }`}
         >
-          <CogIcon className="w-5 h-5 mr-2" /> Temas
-        </Link> */}
+          <LockClosedIcon className="w-5 h-5 mr-2" /> Contraseña
+        </Link>
       </nav>
 
-      <button
+      {/* <button
         onClick={handleLogout}
         className="flex items-center w-full py-2 px-3 mt-auto rounded-lg transition duration-200 hover:bg-red-600"
       >
         <ArrowRightOnRectangleIcon className="w-5 h-5 mr-2" /> Cerrar Sesión
-      </button>
+      </button> */}
     </div>
   );
 };
 
 export default Sidebar;
+
+

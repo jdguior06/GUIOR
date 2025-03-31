@@ -13,9 +13,11 @@ import usuarioReducer from './reducers/usuarioSlice';
 import productoAlmacenReducer from './reducers/productAlmacenSlice';
 import notaEntradaReducer from './reducers/notaEntradaSlice';
 import cajaSesionReducer from './reducers/cajaSesionSlice';
-import cartReducer from './reducers/cartSlice'
-import ventaReducer from './reducers/ventaSlice'
-import reporteSlice from './reducers/reporteSlice'
+import cartReducer from './reducers/cartSlice';
+import ventaReducer from './reducers/ventaSlice';
+import reporteSlice from './reducers/reporteSlice';
+import reportesSlice from './reducers/reportesSlices';
+import contraseñaSlice from './reducers/contraseñaSlice';
 import { setAuthInterceptor } from './utils/api';
 
 const authData = JSON.parse(localStorage.getItem('auth'));
@@ -49,6 +51,8 @@ export const store = configureStore({
     cart: cartReducer,
     venta: ventaReducer,
     reporte: reporteSlice,
+    reportes: reportesSlice,
+    contraseña: contraseñaSlice
   },
   preloadedState,
 });

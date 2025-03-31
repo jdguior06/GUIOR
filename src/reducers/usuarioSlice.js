@@ -8,7 +8,6 @@ import {
   activateUsuarioApi,
 } from '../services/usuarioServices';
 
-// Thunks para acciones asíncronas
 export const fetchUsuarios = createAsyncThunk('usuarios/fetchUsuarios', async (searchTerm = "", { rejectWithValue }) => {
   try {
     const data = await fetchUsuariosApi(searchTerm);
@@ -63,7 +62,6 @@ export const activateUsuario = createAsyncThunk('usuarios/activateUsuario', asyn
   }
 });
 
-// Slice de usuario
 const usuarioSlice = createSlice({
   name: 'usuarios',
   initialState: {
@@ -75,7 +73,6 @@ const usuarioSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Fetch Usuarios
       .addCase(fetchUsuarios.pending, (state) => {
         state.loading = true;
       })
@@ -88,18 +85,15 @@ const usuarioSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Fetch Usuario
       .addCase(fetchUsuario.fulfilled, (state, action) => {
         state.usuario = action.payload;
         state.loading = false;
       })
 
-      // Add Usuario
       .addCase(addUsuario.fulfilled, (state, action) => {
         state.usuarios.push(action.payload);
       })
 
-      // Update Usuario
       .addCase(updateUsuario.fulfilled, (state, action) => {
         const index = state.usuarios.findIndex(usuario => usuario.id === action.payload.id);
         if (index !== -1) {
@@ -107,21 +101,18 @@ const usuarioSlice = createSlice({
         }
       })
 
-      // Deactivate Usuario
       .addCase(deactivateUsuario.fulfilled, (state, action) => {
         state.usuarios = state.usuarios.map(usuario => 
           usuario.id === action.payload ? { ...usuario, activo: false } : usuario
         );
       })
 
-      // Activate Usuario
       .addCase(activateUsuario.fulfilled, (state, action) => {
         state.usuarios = state.usuarios.map(usuario => 
           usuario.id === action.payload ? { ...usuario, activo: true } : usuario
         );
       })
 
-      // Manejar errores en cualquier acción
       .addCase(deactivateUsuario.rejected, (state, action) => {
         state.error = action.payload;
       })

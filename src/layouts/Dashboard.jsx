@@ -6,7 +6,7 @@ import { useTheme } from "../context/ThemeContext";
 
 const Dashboard = ({ selectedSucursal }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { theme } = useTheme(); // Accede al tema desde el contexto
+  const { theme } = useTheme(); 
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
@@ -14,8 +14,8 @@ const Dashboard = ({ selectedSucursal }) => {
     <div
       className="flex flex-col min-h-screen"
       style={{
-        backgroundColor: theme.backgroundColor, // Color de fondo personalizado
-        fontFamily: theme.fontFamily, // Fuente personalizada
+        backgroundColor: theme.backgroundColor, 
+        fontFamily: theme.fontFamily, 
       }}
     >
       <Navbar toggleSidebar={toggleSidebar} />
@@ -26,7 +26,7 @@ const Dashboard = ({ selectedSucursal }) => {
           selectedSucursal={selectedSucursal}
         />
         <main className="flex-1 p-4 overflow-y-auto">
-          <Outlet /> {/* Aquí se renderizan las páginas dentro del layout */}
+          <Outlet /> 
         </main>
       </div>
     </div>

@@ -6,17 +6,17 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { useEffect } from "react";
-import { useTheme } from "../context/ThemeContext"; // Importa useTheme para el tema actual
+import { useTheme } from "../context/ThemeContext"; 
 import ThemedButton from "../components/ThemedButton";
+import { ComputerDesktopIcon, CubeIcon } from "@heroicons/react/24/outline";
 
 const SucursalPanel = ({ selectedSucursal }) => {
   const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const { theme } = useTheme(); // Extrae el tema actual
+  const { theme } = useTheme(); 
 
   useEffect(() => {
-    // Redirige a la página de sucursales si no hay una sucursal seleccionada
     if (!selectedSucursal) {
       navigate("/sucursales");
     }
@@ -39,8 +39,10 @@ const SucursalPanel = ({ selectedSucursal }) => {
         <h2 className="text-3xl font-bold" style={{ color: theme.textColor }}>
           Panel de Administración - {selectedSucursal.nombre}
         </h2>
-        <ThemedButton variant="primary"
-          onClick={() => {navigate("/sucursales");
+        <ThemedButton
+          variant="primary"
+          onClick={() => {
+            navigate("/sucursales");
             window.location.reload();
           }}
         >
@@ -51,40 +53,39 @@ const SucursalPanel = ({ selectedSucursal }) => {
       <div className="flex space-x-2 mb-3">
         <Link
           to={`/sucursales/${id}/panel/almacenes`}
-          className={`px-3 py-1 text-sm rounded-md transition-colors ${isActiveLink(
+          className={`px-4 py-2 text-sm rounded-md transition-colors flex items-center ${isActiveLink(
             "almacenes"
           )}`}
           style={{
             color: location.pathname.includes("almacenes")
-              ? theme.textColor
+              ? "white"
               : theme.primaryColor,
             backgroundColor: location.pathname.includes("almacenes")
               ? theme.primaryColor
               : theme.backgroundColor,
           }}
         >
-          Almacenes
+          <CubeIcon className="w-5 h-5 mr-2" /> Almacenes
         </Link>
         <Link
           to={`/sucursales/${id}/panel/cajas`}
-          className={`px-3 py-1 text-sm rounded-md transition-colors ${isActiveLink(
+          className={`px-4 py-2 text-sm rounded-md transition-colors flex items-center ${isActiveLink(
             "cajas"
           )}`}
           style={{
             color: location.pathname.includes("cajas")
-              ? theme.textColor
+              ? "white"
               : theme.primaryColor,
             backgroundColor: location.pathname.includes("cajas")
               ? theme.primaryColor
               : theme.backgroundColor,
           }}
         >
-          Cajas
+          <ComputerDesktopIcon className="w-5 h-5 mr-2" />Cajas
         </Link>
       </div>
 
       <div
-        className="rounded-lg shadow-lg p-4"
         style={{
           backgroundColor: theme.backgroundColor,
           color: theme.textColor,

@@ -1,6 +1,5 @@
-import api from '../utils/api';  // Instancia configurada de Axios
+import api from '../utils/api';  
 
-// Obtener todos los usuarios con filtro de búsqueda opcional
 export const fetchUsuariosApi = async (searchTerm = "") => {
   try {
     const response = await api.get(`/user`, { params: { search: searchTerm } });
@@ -10,7 +9,6 @@ export const fetchUsuariosApi = async (searchTerm = "") => {
   }
 };
 
-// Obtener un usuario por ID
 export const fetchUsuarioApi = async (id) => {
   try {
     const response = await api.get(`/user/${id}`);
@@ -20,7 +18,6 @@ export const fetchUsuarioApi = async (id) => {
   }
 };
 
-// Crear un nuevo usuario
 export const addUsuarioApi = async (usuario) => {
   try {
     const response = await api.post('/user', usuario);
@@ -30,7 +27,6 @@ export const addUsuarioApi = async (usuario) => {
   }
 };
 
-// Actualizar un usuario existente
 export const updateUsuarioApi = async (id, usuario) => {
   try {
     const response = await api.patch(`/user/${id}`, usuario);
@@ -40,7 +36,6 @@ export const updateUsuarioApi = async (id, usuario) => {
   }
 };
 
-// Desactivar un usuario
 export const deactivateUsuarioApi = async (id) => {
   try {
     await api.patch(`/user/${id}/desactivar`);
@@ -50,7 +45,6 @@ export const deactivateUsuarioApi = async (id) => {
   }
 };
 
-// Activar un usuario
 export const activateUsuarioApi = async (id) => {
   try {
     await api.patch(`/user/${id}/activar`);

@@ -32,7 +32,7 @@ const InventarioPage = () => {
   }
 
   return (
-    <div className="p-6">
+    <div className="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-lg border border-gray-200">
       <h1 className="text-2xl font-bold mb-6">
         Inventario del Almacén{" "}
         <span className="text-blue-600">{idAlmacen}</span>
@@ -50,8 +50,8 @@ const InventarioPage = () => {
       </ThemedButton>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-lg">
-          <thead className="bg-gray-100">
+        <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-lg">
+          <thead className="bg-gray-200">
             <tr>
               <th className="py-3 px-6 text-left font-semibold border-b">
                 Producto

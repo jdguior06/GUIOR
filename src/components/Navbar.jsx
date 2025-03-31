@@ -1,56 +1,48 @@
-import { Menu, } from 'lucide-react';
+import { Menu, LogOut } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import logoguior from "../assets/logoguior1.jpg";
+import logoguior from "../assets/logoguior.png";
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { clearAuth } from '../reducers/authSlice';
 
 const Navbar = ({ toggleSidebar }) => {
   const { theme } = useTheme();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(clearAuth());
+    navigate("/");
+  };
 
   return (
     <nav
-      className="text-white p-4 shadow-lg flex justify-between items-center"
-      style={{ backgroundColor: theme.primaryColor }} // Aplicamos el color personalizado
+      className="text-white p-4 shadow-lg flex items-center"
+      style={{ backgroundColor: theme.primaryColor }}
     >
-      {/* Icono y título */}
+      {/* Logo e icono de menú */}
       <div className="flex items-center space-x-4">
         <button onClick={toggleSidebar} className="lg:hidden">
           <Menu size={24} className="text-white hover:text-red-300 transition duration-200" />
         </button>
-        <div>
-          <img
-            src={logoguior}
-            alt="Banner de la plataforma"
-            className="w-10 h-10 md:w-10 md:h-10 lg:w-10 lg:h-10  object-contain"
-          />
-        </div>
+        <img
+          src={logoguior}
+          alt="Banner de la plataforma"
+          className="w-10 h-10 md:w-16 md:h-16 object-contain"
+        />
         <h1 className="text-2xl font-bold tracking-wide">PAYEJALI</h1>
       </div>
 
-      {/* <div className="hidden md:flex space-x-6 items-center">
-        <Link
-          to="/"
-          className="hover:bg-opacity-75 p-2 rounded-full transition duration-300 hover:shadow-lg"
+      {/* Botón de Cerrar Sesión en la esquina derecha */}
+      <div className="ml-auto">
+        <button
+          onClick={handleLogout}
+          className="flex items-center space-x-2 py-2 px-4 bg-red-500 hover:bg-red-600 transition duration-200 rounded-lg"
         >
-          <Home size={20} className="m-auto" />
-        </Link>
-        <Link
-          to="/orders"
-          className="hover:bg-opacity-75 p-2 rounded-full transition duration-300 hover:shadow-lg"
-        >
-          <ShoppingCart size={20} className="m-auto" />
-        </Link>
-        <Link
-          to="/menu"
-          className="hover:bg-opacity-75 p-2 rounded-full transition duration-300 hover:shadow-lg"
-        >
-          <ClipboardList size={20} className="m-auto" />
-        </Link>
-      </div> */}
-
-      {/* <div className="flex items-center space-x-4">
-        <ThemedButton variant="secondary" onClick={() => alert('Botón Secundario')}>
-          Nueva Orden
-        </ThemedButton>
-      </div> */}
+          <LogOut size={20} className="text-white" />
+          <span className="text-white font-medium">Cerrar Sesión</span>
+        </button>
+      </div>
     </nav>
   );
 };

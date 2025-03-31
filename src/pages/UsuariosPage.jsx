@@ -5,20 +5,16 @@ import {
   deactivateUsuario,
   activateUsuario,
 } from "../reducers/usuarioSlice";
-import { fetchRoles } from "../reducers/rolSlice"; // Importa la acción para cargar roles
+import { fetchRoles } from "../reducers/rolSlice";
 import UsuarioModal from "../components/UsuarioModal";
-import {
-  PencilIcon,
-  XCircleIcon,
-  CheckCircleIcon,
-} from "@heroicons/react/24/outline";
+import { Pencil, XCircle, CheckCircle, UserPlus } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
-import ThemedButton from "../components/ThemedButton";
+import { motion } from "framer-motion";
 
 const UsuariosPage = () => {
   const dispatch = useDispatch();
   const { usuarios, loading, error } = useSelector((state) => state.usuarios);
-  const { roles } = useSelector((state) => state.roles); // Obtén la lista de roles desde el estado
+  const { roles } = useSelector((state) => state.roles);
   const { theme } = useTheme();
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,7 +24,7 @@ const UsuariosPage = () => {
 
   useEffect(() => {
     dispatch(fetchUsuarios());
-    dispatch(fetchRoles()); // Carga los roles cuando se monta la página
+    dispatch(fetchRoles());
   }, [dispatch]);
 
   const handleSearchChange = (e) => setSearchTerm(e.target.value);
@@ -62,51 +58,50 @@ const UsuariosPage = () => {
   if (error) return <p className="text-red-500">Error: {error}</p>;
 
   return (
-    <div className="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-lg border border-gray-200">
-      <h1 className="text-2xl font-semibold mb-6 text-gray-800">
-        Gestión de Usuarios
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="max-w-5xl mx-auto p-6 bg-white rounded-xl shadow-md border border-gray-200"
+    >
+      <h1 className="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+        <UserPlus className="w-6 h-6 mr-2 text-blue-500" /> Gestión de Usuarios
       </h1>
 
-      {/* Barra de Búsqueda */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
         <input
           type="text"
           placeholder="Buscar usuario..."
           value={searchTerm}
           onChange={handleSearchChange}
-          className="border border-gray-300 rounded-lg py-2 px-4 w-1/2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          className="border border-gray-300 rounded-lg py-2 px-4 w-full md:w-1/2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
         />
-        <div className="flex items-center ml-4"></div>
-
-        <input
-          type="checkbox"
-          id="showInactive"
-          checked={showInactive}
-          onChange={handleCheckboxChange}
-          className="mr-2 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 transition"
-        />
-        <label htmlFor="showInactive" style={{ color: theme.textColor }}>
+        <label className="flex items-center gap-2 cursor-pointer text-gray-700">
+          <input
+            type="checkbox"
+            checked={showInactive}
+            onChange={handleCheckboxChange}
+            className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 transition"
+          />
           Mostrar inactivos
         </label>
       </div>
 
-      <ThemedButton
-        variant="primary"
-        className="mb-6"
+      <button
         onClick={() => openModal()}
+        className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition shadow-md"
       >
-        <span>Agregar Usuario</span>
-      </ThemedButton>
+        <UserPlus className="w-5 h-5" /> Agregar Usuario
+      </button>
 
-      <div className="overflow-x-auto">
-        <table className="w-full mb-6 border border-gray-200">
+      <div className="overflow-x-auto mt-6">
+        <table className="w-full min-w-[600px] border border-gray-200 rounded-lg overflow-hidden">
           <thead>
             <tr className="bg-gray-100 text-gray-600">
               <th className="py-3 px-4 border">Nombre</th>
               <th className="py-3 px-4 border">Apellido</th>
               <th className="py-3 px-4 border">Email</th>
-              <th className="py-3 px-4 border">Rol</th>{" "}
-              {/* Nueva columna de Rol */}
+              <th className="py-3 px-4 border">Rol</th>
               <th className="py-3 px-4 border">Estado</th>
               <th className="py-3 px-4 border">Acciones</th>
             </tr>
@@ -118,19 +113,16 @@ const UsuariosPage = () => {
                 <td className="py-3 px-4 border">{usuario.apellido}</td>
                 <td className="py-3 px-4 border">{usuario.email}</td>
                 <td className="py-3 px-4 border text-center">
-                  {usuario.rol[0]?.nombre || "Sin rol"}{" "}
-                  {/* Muestra el rol o "Sin rol" si no existe */}
+                  {usuario.rol[0]?.nombre || "Sin rol"}
                 </td>
                 <td className="py-3 px-4 border text-center">
                   {usuario.activo ? (
                     <span className="inline-flex items-center text-green-600">
-                      <CheckCircleIcon className="w-5 h-5 mr-1" />
-                      Activo
+                      <CheckCircle className="w-5 h-5 mr-1" /> Activo
                     </span>
                   ) : (
                     <span className="inline-flex items-center text-red-600">
-                      <XCircleIcon className="w-5 h-5 mr-1" />
-                      Inactivo
+                      <XCircle className="w-5 h-5 mr-1" /> Inactivo
                     </span>
                   )}
                 </td>
@@ -139,8 +131,7 @@ const UsuariosPage = () => {
                     onClick={() => openModal(usuario)}
                     className="flex items-center text-blue-500 hover:text-blue-600 transition duration-150"
                   >
-                    <PencilIcon className="w-5 h-5 mr-1" />
-                    Editar
+                    <Pencil className="w-5 h-5 mr-1" /> Editar
                   </button>
                   <button
                     onClick={() => toggleUserStatus(usuario.id, usuario.activo)}
@@ -152,13 +143,11 @@ const UsuariosPage = () => {
                   >
                     {usuario.activo ? (
                       <>
-                        <XCircleIcon className="w-5 h-5 mr-1" />
-                        Desactivar
+                        <XCircle className="w-5 h-5 mr-1" /> Desactivar
                       </>
                     ) : (
                       <>
-                        <CheckCircleIcon className="w-5 h-5 mr-1" />
-                        Activar
+                        <CheckCircle className="w-5 h-5 mr-1" /> Activar
                       </>
                     )}
                   </button>
@@ -169,16 +158,10 @@ const UsuariosPage = () => {
         </table>
       </div>
 
-      {/* Modal de Crear/Editar Usuario */}
       {isModalOpen && (
-        <UsuarioModal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          user={editingUser}
-          roles={roles} // Pasa la lista de roles al modal
-        />
+        <UsuarioModal isOpen={isModalOpen} onClose={closeModal} user={editingUser} roles={roles} />
       )}
-    </div>
+    </motion.div>
   );
 };
 

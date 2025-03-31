@@ -40,6 +40,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import HomePage from "./pages/HomePage";
 import Home from "./pages/Home";
 import CajaSesionPage from "./pages/CajaSesionPage";
+import ReporteProductosPage from "./pages/ReporteProductosPage";
+import ContraseñaPage from "./pages/ContraseñaPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -109,12 +111,14 @@ function App() {
               <Route path="/productos" element={<ProductosPage />} />
               <Route path="/categorias" element={<CategoriasPage />} />
               <Route path="/reportes" element={<ReportePage />} />
+              <Route path="/reportes-productos" element={<ReporteProductosPage />} />
               <Route path="/roles" element={<RolesPage />} />
               <Route path="/permisos" element={<PermisosPage />} />
               <Route path="/usuarios" element={<UsuariosPage />} />
               <Route path="/ventas" element={<VentasPage />} />
               <Route path="/caja-sesion" element={<CajaSesionPage />} />
               <Route path="/temas" element={<ThemeSettings />} />
+              <Route path="/cambiar-contraseña" element={<ContraseñaPage />} />
               <Route
                 path="/sucursales"
                 element={

@@ -99,7 +99,7 @@ const NotaEntradaPage = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-lg border border-gray-200">
       <h1 className="text-2xl font-bold mb-6">Nota de Entrada</h1>
       
       <ThemedButton
