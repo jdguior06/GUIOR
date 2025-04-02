@@ -1,10 +1,8 @@
-// src/pages/Login.jsx
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { login } from "../services/authServices";
 import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/solid";
-import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
@@ -41,7 +39,6 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center h-screen bg-gradient-to-br from-blue-300 via-blue-400 to-blue-600">
-      <ToastContainer />
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
         <h1 className="text-4xl font-bold mb-4 text-center text-blue-800">Iniciar Sesión</h1>
         <p className="mb-8 text-gray-600 text-center">

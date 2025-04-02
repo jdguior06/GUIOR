@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { showNotification } from "../utils/toast";
 import { actualizarContraseñaTrunk } from "../reducers/contraseñaSlice";
 import { Lock, CheckCircle, AlertCircle } from "lucide-react";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const ContraseñaPage = () => {
@@ -109,7 +108,6 @@ const ContraseñaPage = () => {
           </div>
         )}
       </div>
-      <ToastContainer />
     </div>
   );
 };

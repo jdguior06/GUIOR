@@ -1,7 +1,5 @@
-// src/pages/Registro.jsx
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { registerUser } from "../services/registrosuscriptorServices";  // Importar el servicio con el nuevo nombre
 
@@ -38,7 +36,6 @@ const Registro = () => {
 
   return (
     <div className="flex items-center justify-center h-screen bg-gradient-to-br from-blue-300 via-blue-400 to-blue-600">
-      <ToastContainer />
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
         <h1 className="text-4xl font-bold mb-4 text-center text-blue-800">Registrarse</h1>
         
