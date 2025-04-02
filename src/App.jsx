@@ -53,7 +53,6 @@ function App() {
       if (authData?.token) {
         try {
           const response = await api.get("/auth/me");
-          // console.log(response.data)
           if (!response.data) {
             dispatch(clearAuth());
           }

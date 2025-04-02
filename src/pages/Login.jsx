@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { login } from "../services/authServices";
 import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/solid";
-import 'react-toastify/dist/ReactToastify.css';
+import { showNotification } from "../utils/toast";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -22,9 +22,9 @@ const Login = () => {
     const response = await dispatch(login(email, password));
 
     if (response.success) {
-      toast.success(response.message);
+      showNotification.success(response.message);
     } else {
-      toast.error(response.message);
+      showNotification.error(response.message);
     }
   };
 
