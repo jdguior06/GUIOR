@@ -12,7 +12,6 @@ export const fetchProductosAlmacenApi = async (idAlmacen) => {
   }
 };
 
-// Obtener un producto específico en un almacén por su ID
 export const fetchProductoAlmacenApi = async (id) => {
   try {
     const response = await api.get(`/productos-almacen/${id}`);
@@ -23,3 +22,14 @@ export const fetchProductoAlmacenApi = async (id) => {
     );
   }
 };
+
+export const ajustarStockApi = async (id, cantidad) => {
+  try {
+    const response = await api.patch(`/almacen/${id}`,  cantidad );
+    return response.data.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || 'Error al actualizar el stock'
+    );
+  }
+} 

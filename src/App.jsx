@@ -42,6 +42,7 @@ import Home from "./pages/Home";
 import CajaSesionPage from "./pages/CajaSesionPage";
 import ReporteProductosPage from "./pages/ReporteProductosPage";
 import ContraseñaPage from "./pages/ContraseñaPage";
+import VentasPedidosPage from "./pages/VentasPedidosPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -146,8 +147,12 @@ function App() {
             </Route>
             {/* <Route path="cajas/:cajaId/sesion" element={<PosPage />} /> */}
             <Route
-              path="cajas/:cajaId/sesion/:sesionId"
+              path="cajas/sesion/:sesionId"
               element={<PosPage />}
+            />
+            <Route
+              path="Ventas-pedidos"
+              element={<VentasPedidosPage />}
             />
           </Route>
           {/* Ruta para cualquier otro acceso a rutas inválidas */}

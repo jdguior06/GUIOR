@@ -29,7 +29,6 @@ const MetodoPagoModal = ({ open, onClose, total, onSave }) => {
     const updatedMetodosPago = [...metodosPago];
     updatedMetodosPago[index].monto = value;
     setMetodosPago(updatedMetodosPago);
-    // console.log("Actualización de montos:", updatedMetodosPago);
   };
 
   const handleMontoBlur = (index) => {
@@ -97,7 +96,6 @@ const MetodoPagoModal = ({ open, onClose, total, onSave }) => {
     }
 
     setError("");
-    // console.log("Enviando métodos de pago:", metodosPago);
     onSave(
       metodosPago.map((metodo) => ({
         ...metodo,
@@ -137,7 +135,7 @@ const MetodoPagoModal = ({ open, onClose, total, onSave }) => {
                 name={`monto-${index}`}
                 value={metodo.monto}
                 onChange={(e) => handleMontoChange(index, e.target.value)}
-                onBlur={() => handleMontoBlur(index)} // Formatear con decimales al perder el foco
+                onBlur={() => handleMontoBlur(index)}
                 className="border rounded w-full px-3 py-2 mb-2 focus:outline-none focus:ring-2 focus:ring-green-500"
                 placeholder="Ingrese el monto"
                 min="0"
@@ -167,7 +165,12 @@ const MetodoPagoModal = ({ open, onClose, total, onSave }) => {
           <p className="text-red-500 mt-4 text-center font-semibold">{error}</p>
         )}
 
-        {/* Muestra el cambio calculado */}
+        <div className="mt-4 border-t pt-4">
+          <p className="text-lg font-semibold">
+            Total: <span className="text-green-600">Bs. {total}</span>
+          </p>
+        </div>
+
         <div className="mt-4 border-t pt-4">
           <p className="text-lg font-semibold">
             Cambio: <span className="text-green-600">Bs. {cambio}</span>

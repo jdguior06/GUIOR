@@ -1,13 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { aperturaCajaApi, cierreCajaApi, fetchCajasSesionApi, verificarSesionAbiertaApi } from '../services/cajaSesionService';
-import { realizarVentaApi } from '../services/ventaService';
 
 export const fetchCajasSesion = createAsyncThunk(
   'cajaSesion/fetchCajaSesion',
   async (_, { rejectWithValue }) => {
     try {
       const data = await fetchCajasSesionApi();
-      // console.log(data);
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -15,7 +13,6 @@ export const fetchCajasSesion = createAsyncThunk(
   }
 );
 
-// Acción para apertura de caja
 export const aperturaCaja = createAsyncThunk(
   'cajaSesion/aperturaCaja',
   async ({ id_caja, monto }, { rejectWithValue }) => {
@@ -31,7 +28,6 @@ export const aperturaCaja = createAsyncThunk(
   }
 );
 
-// Acción para cierre de caja
 export const cierreCaja = createAsyncThunk(
   'cajaSesion/cierreCaja',
   async (idCajaSesion, { rejectWithValue }) => {
@@ -44,7 +40,6 @@ export const cierreCaja = createAsyncThunk(
   }
 );
 
-// Acción para verificar sesión abierta
 export const verificarSesionAbierta = createAsyncThunk(
   'cajaSesion/verificarSesionAbierta',
   async (idCaja, { rejectWithValue }) => {
@@ -62,19 +57,6 @@ export const verificarSesionAbierta = createAsyncThunk(
   }
 );
 
-// Acción para realizar venta
-export const realizarVenta = createAsyncThunk(
-  'cajaSesion/realizarVenta',
-  async (ventaData, { rejectWithValue }) => {
-    try {
-      const data = await realizarVentaApi(ventaData);
-      return data;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
-
 const cajaSesionSlice = createSlice({
   name: 'cajaSesion',
   initialState: {
@@ -82,11 +64,6 @@ const cajaSesionSlice = createSlice({
     cajaSesion: null,
     loading: false,
     error: null,
-    venta: {
-      loading: false,
-      error: null,
-      data: null,
-    },
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -116,7 +93,6 @@ const cajaSesionSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Cierre de caja
       .addCase(cierreCaja.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -130,23 +106,8 @@ const cajaSesionSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Verificar sesión abierta
       .addCase(verificarSesionAbierta.fulfilled, (state, action) => {
         state.cajaSesion = action.payload || null;
-      })
-
-      // Realizar venta
-      .addCase(realizarVenta.pending, (state) => {
-        state.venta.loading = true;
-        state.venta.error = null;
-      })
-      .addCase(realizarVenta.fulfilled, (state, action) => {
-        state.venta.loading = false;
-        state.venta.data = action.payload;
-      })
-      .addCase(realizarVenta.rejected, (state, action) => {
-        state.venta.loading = false;
-        state.venta.error = action.payload;
       });
   },
 });

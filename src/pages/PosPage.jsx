@@ -10,7 +10,7 @@ import {
 import { fetchProductosConsolidados } from "../reducers/productoSlice";
 import { addCliente, fetchClientes, fetchClientesActivos } from "../reducers/clienteSlice";
 import { cierreCaja } from "../reducers/cajaSesionSlice";
-import { realizarVenta } from "../reducers/ventaSlice";
+import { realizarPedido, realizarVenta } from "../reducers/ventaSlice";
 import { useTheme } from "../context/ThemeContext";
 import ClienteModal from "../components/ClienteModal";
 import MetodoPagoModal from "../components/MetodoPagoModal";
@@ -85,19 +85,61 @@ const PosPage = () => {
 
   const handlePagar = () => {
     if (cartItems.length === 0) {
-      // alert("El carrito está vacío. Agrega productos antes de pagar.");
       showNotification.error("El carrito está vacío. Agrega productos antes de pagar.");
       return;
     }
-    // if (selectedCliente && !selectedCliente.id) {
-    //   showNotification.error(
-    //     "Error: El cliente seleccionado no tiene un ID válido. Por favor, seleccione el cliente nuevamente."
-    //   );
-    //   return;
-    // }
     setErrorVenta("");
     setIsMetodoPagoModalOpen(true);
   };
+
+  const handlePedir = () => {
+    if (cartItems.length === 0) {
+      showNotification.error("El carrito está vacío. Agrega productos antes de pagar.");
+      return;
+    }
+    setErrorVenta("");
+    handleConfirmarPedido();
+  }
+
+  const handleConfirmarPedido = async () => {
+    try {
+      if (cartItems.length ===0) {
+        showNotification.error("No hay productos en el carrito");
+        return;
+      }
+
+      for (const item of cartItems) {
+        const product = products.find((p) => p.producto.id === item.id);
+        if (!product || product.totalStock < item.cantidad) {
+          showNotification.error(`Stock insuficiente para el producto: ${item.nombre}`);
+          return;
+        };
+      }
+
+      const ventaData = {
+        id_cliente: selectedCliente ? selectedCliente.id : null,
+        id_caja_sesion: parseInt(sesionId),
+        detalleVentaDTOS: cartItems.map((item) => ({
+          id_producto: item.id,
+          cantidad: item.cantidad,
+          nombreProducto: item.nombre,
+          precioVenta: item.precioVenta,
+        })),
+        metodosPago,
+      };
+
+      await dispatch(realizarPedido(ventaData)).unwrap();
+      showNotification.success("Pedido realizado con éxito");
+      dispatch(clearCart());
+      dispatch(fetchProductosConsolidados(idSucursal));
+      dispatch(fetchClientesActivos());
+      resetStateAfterSale();
+      
+    } catch (error) {
+      showNotification.error(error.message || "Error al realizar el pedido");
+      console.error("Error completo:", error);
+    }
+  }
 
   const handleConfirmarVenta = async (metodosPago) => {
     try {
@@ -105,11 +147,6 @@ const PosPage = () => {
         showNotification.error("No hay productos en el carrito");
         return;
       }
-
-      // if (!selectedCliente) {
-      //   showNotification.error("Por favor seleccione un cliente");
-      //   return;
-      // }
 
       if (!metodosPago || metodosPago.length === 0) {
         showNotification.error("Debe especificar al menos un método de pago");
@@ -150,11 +187,6 @@ const PosPage = () => {
         total,
         cliente: selectedCliente,
       };
-
-      // console.log(
-      //   "Datos enviados a la API:",
-      //   JSON.stringify(ventaData, null, 2)
-      // );
 
       await dispatch(realizarVenta(ventaData)).unwrap();
       showNotification.success("Venta realizada con éxito");
@@ -204,8 +236,6 @@ const PosPage = () => {
 
   useEffect(() => {
     if (selectedCliente) {
-      // console.log("Cliente seleccionado:", selectedCliente);
-      // Verificar que el cliente tenga un ID válido
       if (!selectedCliente.id) {
         console.error("Cliente seleccionado sin ID válido");
         setSelectedCliente(null);
@@ -223,6 +253,12 @@ const PosPage = () => {
         >
           Cerrar Caja
         </button>
+        <button
+          onClick={() => navigate("/ventas-pedidos")}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow"
+        >
+          Ver Pedidos y Ventas
+        </button>
       </nav>
 
       <div className="container mx-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -239,9 +275,8 @@ const PosPage = () => {
           onClose={() => setIsMetodoPagoModalOpen(false)}
           total={total}
           onSave={(selectedMetodosPago) => {
-            // console.log("Métodos de pago recibidos:", selectedMetodosPago);
-            setIsMetodoPagoModalOpen(false); // Cierra el modal
-            handleConfirmarVenta(selectedMetodosPago); // Indica que la venta está pendiente
+            setIsMetodoPagoModalOpen(false); 
+            handleConfirmarVenta(selectedMetodosPago);
           }}
         />
 
@@ -347,11 +382,6 @@ const PosPage = () => {
                   className="flex items-center justify-between bg-gray-50 border rounded-lg shadow-sm p-4"
                 >
                   <div className="flex items-center">
-                    {/* <img
-                      src={item.foto || "https://via.placeholder.com/60"}
-                      alt={item.nombre}
-                      className="w-16 h-16 object-cover rounded-lg mr-4"
-                    /> */}
                     <div>
                       <h3 className="text-lg font-semibold text-gray-700">
                         {item.nombre}
@@ -489,6 +519,13 @@ const PosPage = () => {
               className="mt-4 w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 text-lg font-bold"
             >
               Pagar Bs. {total.toFixed(2)}
+            </button>
+
+            <button
+              onClick={handlePedir}
+              className="mt-4 w-full bg-yellow-500 text-white py-3 rounded-lg hover:bg-yellow-700 text-lg font-bold"
+            >
+              Pedir
             </button>
           </div>
         </div>

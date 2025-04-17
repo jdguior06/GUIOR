@@ -1,8 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { fetchProductosAlmacen } from "../reducers/productAlmacenSlice";
+import {
+  ajustarStock,
+  fetchProductosAlmacen,
+} from "../reducers/productAlmacenSlice";
 import ThemedButton from "../components/ThemedButton";
+import PermissionWrapper from "../components/PermissionWrapper";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import InventarioModal from "../components/InventarioModal";
 
 const InventarioPage = () => {
   const dispatch = useDispatch();
@@ -10,14 +16,29 @@ const InventarioPage = () => {
   const { id, idAlmacen } = useParams();
 
   const { productosAlmacen, loading, error } = useSelector(
-    (state) => state.productoAlmacenes // Revisa que sea el reducer correcto
+    (state) => state.productoAlmacenes
   );
+
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedProductoAlmacen, setSelectedProductoAlmacen] = useState(null);
 
   useEffect(() => {
     if (idAlmacen) {
       dispatch(fetchProductosAlmacen(idAlmacen));
     }
   }, [dispatch, idAlmacen]);
+
+  const handleOpenModal = (productoAlmacen = null) => {
+    setSelectedProductoAlmacen(productoAlmacen);
+    setOpenModal(true);
+  };
+
+  const handleUpdate = (cantidad) => {
+    console.log({id: selectedProductoAlmacen.id, cantidad});
+    dispatch(ajustarStock({ id: selectedProductoAlmacen.id, cantidad }));
+    setOpenModal(false);
+    dispatch(fetchProductosAlmacen(idAlmacen));
+  };
 
   if (loading) {
     return (
@@ -38,7 +59,8 @@ const InventarioPage = () => {
         <span className="text-blue-600">{idAlmacen}</span>
       </h1>
 
-      <ThemedButton variant="primary"
+      <ThemedButton
+        variant="primary"
         onClick={() =>
           navigate(
             `/sucursales/${id}/panel/almacenes/${idAlmacen}/notas-entrada`
@@ -62,6 +84,11 @@ const InventarioPage = () => {
               <th className="py-3 px-6 text-left font-semibold border-b">
                 Última Modificación
               </th>
+              <PermissionWrapper permission="PERMISO_AJUSTAR_STOCK">
+                <th className="py-3 px-6 text-left font-semibold border-b">
+                  Acción
+                </th>
+              </PermissionWrapper>
             </tr>
           </thead>
           <tbody>
@@ -71,7 +98,7 @@ const InventarioPage = () => {
                   key={producto.id}
                   className="hover:bg-gray-100 transition-colors"
                 >
-                  <td className="py-3 px-6 border-b">{producto.nombre}</td>
+                  <td className="py-3 px-6 border-b">{producto.producto.nombre}</td>
                   <td className="py-3 px-6 border-b">{producto.stock}</td>
                   <td className="py-3 px-6 border-b">
                     {new Date(producto.ultimaModificacion).toLocaleDateString(
@@ -86,6 +113,16 @@ const InventarioPage = () => {
                       }
                     )}
                   </td>
+                  <PermissionWrapper permission="PERMISO_AJUSTAR_STOCK">
+                    <td className="py-3 px-6 border-b">
+                      <button 
+                        className="bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center w-8 h-8 rounded-full shadow-sm" 
+                        onClick={() => handleOpenModal(producto)}
+                      >
+                        <PencilSquareIcon className="h-4 w-4" />
+                      </button>
+                    </td>
+                  </PermissionWrapper>
                 </tr>
               ))
             ) : (
@@ -101,6 +138,12 @@ const InventarioPage = () => {
           </tbody>
         </table>
       </div>
+      <InventarioModal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        selectedProductoAlmacen={selectedProductoAlmacen}
+        onSave={handleUpdate}
+      />
     </div>
   );
 };

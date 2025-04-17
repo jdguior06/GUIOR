@@ -7,7 +7,6 @@ import {
   activarCajaApi,
 } from '../services/cajaServices';
 
-// Obtener todas las cajas de una sucursal
 export const fetchCajas = createAsyncThunk(
   'cajas/fetchCajas',
   async (idSucursal, { rejectWithValue }) => {
@@ -20,7 +19,6 @@ export const fetchCajas = createAsyncThunk(
   }
 );
 
-// Crear una caja en una sucursal
 export const addCaja = createAsyncThunk(
   'cajas/addCaja',
   async ({ idSucursal, caja }, { rejectWithValue }) => {
@@ -33,7 +31,6 @@ export const addCaja = createAsyncThunk(
   }
 );
 
-// Actualizar una caja en una sucursal
 export const updateCaja = createAsyncThunk(
   'cajas/updateCaja',
   async ({ idSucursal, id_caja, caja }, { rejectWithValue }) => {
@@ -46,7 +43,6 @@ export const updateCaja = createAsyncThunk(
   }
 );
 
-// Desactivar una caja en una sucursal
 export const deleteCaja = createAsyncThunk(
   'cajas/deleteCaja',
   async ({ idSucursal, idCaja }, { rejectWithValue }) => {
@@ -82,7 +78,6 @@ const cajaSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Fetch cajas
       .addCase(fetchCajas.pending, (state) => {
         state.loading = true;
       })
@@ -95,12 +90,10 @@ const cajaSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Add caja
       .addCase(addCaja.fulfilled, (state, action) => {
         state.cajas.push(action.payload);
       })
 
-      // Update caja
       .addCase(updateCaja.fulfilled, (state, action) => {
         const index = state.cajas.findIndex(caja => caja.id === action.payload.id);
         if (index !== -1) {
@@ -108,7 +101,6 @@ const cajaSlice = createSlice({
         }
       })
 
-      // Delete caja (desactivar)
       .addCase(deleteCaja.fulfilled, (state, action) => {
         state.cajas = state.cajas.filter(caja => caja.id !== action.payload.idCaja);
       })

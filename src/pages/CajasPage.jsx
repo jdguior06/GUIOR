@@ -78,7 +78,7 @@ const CajasPage = () => {
           showNotification.info(
             "Sesión abierta encontrada. Redirigiendo a la sesión actual..."
           );
-          navigate(`/cajas/${caja.id}/sesion/${sesion.id}`, {
+          navigate(`/cajas/sesion/${sesion.id}`, {
             state: { idSucursal: id },
           });
         } else {
