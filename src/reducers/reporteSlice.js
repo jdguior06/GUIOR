@@ -4,7 +4,6 @@ import { fetchProductosVendidosApi } from "../services/reporteServices";
 export const fetchProductosVendidos = createAsyncThunk('caja-sesion/fetchProductosVendidos', async (id, { rejectWithValue }) => {
     try {
         const data = await fetchProductosVendidosApi(id);
-        console.log(data);
         return data;
     } catch (error) {
         return rejectWithValue(error.message);
@@ -25,7 +24,6 @@ const reporteSlice = createSlice({
                 state.loading = true;
             })
             .addCase(fetchProductosVendidos.fulfilled, (state, action) => {
-                console.log('Productos vendidos en Redux:', action.payload);
                 state.loading = false;
                 state.productosVendidos = action.payload;
             })

@@ -22,7 +22,7 @@ const PosPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { sesionId } = useParams();
+  const { cajaSesion } = useSelector((state) => state.cajaSesion );
   const idSucursal = location.state?.idSucursal;
   const { theme } = useTheme();
 
@@ -118,7 +118,7 @@ const PosPage = () => {
 
       const ventaData = {
         id_cliente: selectedCliente ? selectedCliente.id : null,
-        id_caja_sesion: parseInt(sesionId),
+        id_caja_sesion: parseInt(cajaSesion.sesion.id),
         detalleVentaDTOS: cartItems.map((item) => ({
           id_producto: item.id,
           cantidad: item.cantidad,
@@ -176,7 +176,7 @@ const PosPage = () => {
       }
       const ventaData = {
         id_cliente: selectedCliente ? selectedCliente.id : null,
-        id_caja_sesion: parseInt(sesionId),
+        id_caja_sesion: parseInt(cajaSesion.sesion.id),
         detalleVentaDTOS: cartItems.map((item) => ({
           id_producto: item.id,
           cantidad: item.cantidad,
@@ -204,7 +204,7 @@ const PosPage = () => {
 
   const handleCierreCaja = async () => {
     try {
-      const response = await dispatch(cierreCaja(sesionId)).unwrap();
+      const response = await dispatch(cierreCaja(cajaSesion.sesion.id)).unwrap();
       showNotification.info("Caja cerrada con éxito");
       setShowCierreModal(true);
       setSesionData(response);

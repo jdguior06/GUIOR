@@ -34,7 +34,6 @@ const InventarioPage = () => {
   };
 
   const handleUpdate = (cantidad) => {
-    console.log({id: selectedProductoAlmacen.id, cantidad});
     dispatch(ajustarStock({ id: selectedProductoAlmacen.id, cantidad }));
     setOpenModal(false);
     dispatch(fetchProductosAlmacen(idAlmacen));

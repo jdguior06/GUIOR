@@ -10,7 +10,6 @@ export function decodeJWT(token) {
 
     const currentTime = Math.floor(Date.now() / 1000); // Tiempo actual en segundos
     if (decoded.exp && decoded.exp < currentTime) {
-      // console.log('El token ha expirado');
       localStorage.removeItem('token');
       return null;
     }

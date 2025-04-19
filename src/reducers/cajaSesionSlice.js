@@ -19,9 +19,9 @@ export const aperturaCaja = createAsyncThunk(
     try {
       const data = await aperturaCajaApi({ id_caja, monto });
       if (data.conflict) {
-        return { conflict: true, sesionAbiertaId: data.sesionAbiertaId };
+        return { conflict: true, sesion: data.sesionAbiertaId };
       }
-      return data;
+      return { sesion: data};
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -33,7 +33,7 @@ export const cierreCaja = createAsyncThunk(
   async (idCajaSesion, { rejectWithValue }) => {
     try {
       const data = await cierreCajaApi(idCajaSesion);
-      return data;
+      return { sesion: data };
     } catch (error) {
       return rejectWithValue(error.message);
     }

@@ -1,4 +1,4 @@
-const InvoiceModal = ({ open, ventaData, onClose, onPrint }) => {
+const InvoiceModal = ({ open, ventaData, onClose, onPrint, buttonText = "Volver al POS" }) => {
   if (!open) return null;
 
   return (
@@ -49,7 +49,7 @@ const InvoiceModal = ({ open, ventaData, onClose, onPrint }) => {
             onClick={onClose}
             className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
           >
-            Volver al POS
+            {buttonText}
           </button>
           <button
             onClick={onPrint}

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { actualizarPedidoApi, cancelarPedidoApi, obtenerVentaPorIdApi, obtenerVentaPorSesionDeCajaApi, obtenerVentasApi, pagarPedidoApi, realizarPedidoApi, realizarVentaApi } from '../services/ventaService';
+import { actualizarPedidoApi, cancelarPedidoApi, completarPedidoApi, obtenerVentaPorIdApi, obtenerVentaPorSesionDeCajaApi, obtenerVentasApi, pagarPedidoApi, realizarPedidoApi, realizarVentaApi } from '../services/ventaService';
 
 export const realizarVenta = createAsyncThunk(
   'venta/realizarVenta',
@@ -61,6 +61,18 @@ export const cancelarPedido = createAsyncThunk(
   }
 )
 
+export const completarPedido = createAsyncThunk(
+  'venta/completarPedido',
+  async ( id, { rejectWithValue }) => {
+    try {
+      const data = await completarPedidoApi(id);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+)
+
 export const obtenerVentas = createAsyncThunk(
   'venta/obtenerVentas',
   async (_, { rejectWithValue }) => {
@@ -90,7 +102,6 @@ export const obtenerVentaPorSesionDeCaja = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const data = await obtenerVentaPorSesionDeCajaApi(id);
-      console.log(data);
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -233,6 +244,21 @@ const ventaSlice = createSlice({
         );
       })
       .addCase(cancelarPedido.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(completarPedido.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(completarPedido.fulfilled, (state, action) => {
+        state.loading = false;
+        state.ventas = state.ventas.map((venta) =>
+          venta.id === action.payload.id ? action.payload : venta
+        );
+      })
+      .addCase(completarPedido.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

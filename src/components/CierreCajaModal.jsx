@@ -1,6 +1,5 @@
 const CierreCajaModal = ({ open, onClose, sesionData }) => {
   if (!open) return null;
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div
@@ -14,25 +13,25 @@ const CierreCajaModal = ({ open, onClose, sesionData }) => {
           <div className="flex justify-between">
             <span>Fecha/Hora Apertura:</span>
             <span>
-              {new Date(sesionData.fechaHoraApertura).toLocaleString()}
+              {new Date(sesionData.sesion.fechaHoraApertura).toLocaleString()}
             </span>
           </div>
 
           <div className="flex justify-between">
             <span>Saldo Inicial:</span>
-            <span>Bs. {sesionData.saldoInicial.toFixed(2)}</span>
+            <span>Bs. {sesionData.sesion.saldoInicial.toFixed(2)}</span>
           </div>
 
           <div className="flex justify-between">
             <span>Total Ventas:</span>
             <span>
-              Bs. {(sesionData.saldoFinal - sesionData.saldoInicial).toFixed(2)}
+              Bs. {(sesionData.sesion.saldoFinal - sesionData.sesion.saldoInicial).toFixed(2)}
             </span>
           </div>
 
           <div className="flex justify-between font-bold text-lg">
             <span>Saldo Final:</span>
-            <span>Bs. {sesionData.saldoFinal.toFixed(2)}</span>
+            <span>Bs. {sesionData.sesion.saldoFinal.toFixed(2)}</span>
           </div>
         </div>
 

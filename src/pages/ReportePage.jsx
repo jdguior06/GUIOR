@@ -33,10 +33,6 @@ const ReportePage = () => {
     }
   }, [dispatch, almacenId]);
 
-  useEffect(() => {
-    // console.log("Productos en Almacén cargados:", productosAlmacen);
-  }, [productosAlmacen]);
-
   const generatePDF = () => {
     // Forzar `almacenId` a `"all"` si `sucursalId` es `"all"` y `almacenId` está vacío
     if (sucursalId === "all" && almacenId === "") {
@@ -132,8 +128,6 @@ const ReportePage = () => {
           ]],
           startY: 40
         });
-      } else {
-        // console.log("Producto específico no encontrado en el almacén especificado.");
       }
     }
 

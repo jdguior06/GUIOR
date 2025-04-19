@@ -3,7 +3,6 @@ import api from '../utils/api';
 export const fetchCajasSesionApi = async () => {
   try {
     const response = await api.get(`/caja-sesion`);
-    // console.log("ventas: ", response);
     return response.data.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Error al obtener las sesiones de las cajas');

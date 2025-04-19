@@ -39,6 +39,18 @@ export const actualizarPedidoApi = async (id, ventaData) => {
   }
 };
 
+export const completarPedidoApi = async (id) => {
+  try {
+    const response = await api.patch(`/venta/pedido/completar/${id}`);
+    return response.data.data;
+  } catch (error) {
+    const errorMessage = error.response?.data?.message 
+      || error.message 
+      || 'Error al cancelar el pedido';
+    throw new Error(errorMessage);
+  }
+};
+
 export const pagarPedidoApi = async (id, metodosPago) => {
   try {
     const response = await api.patch(`/venta/pedido/pagar/${id}`, metodosPago);

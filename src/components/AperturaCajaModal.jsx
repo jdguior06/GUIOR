@@ -32,14 +32,13 @@ const AperturaCajaModal = ({ open, onClose, selectedCaja, idSucursal }) => {
                 "Ya existe una sesión abierta para esta caja. Redirigiendo a la sesión actual..."
               );
               navigate(
-                `/cajas/${selectedCaja.id}/sesion/${action.payload.sesionAbiertaId}`,
+                `/cajas/sesion/${action.payload.sesionAbiertaId}`,
                 { state: { idSucursal } }
               );
             } else {
-              // Redirigir a la nueva sesión si no hay conflicto
-              onClose(); // Cierra el modal si la apertura fue exitosa
+              onClose();
               navigate(
-                `/cajas/${selectedCaja.id}/sesion/${action.payload.id}`,
+                `/cajas/sesion/${action.payload.sesion.id}`,
                 { state: { idSucursal } }
               );
             }

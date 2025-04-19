@@ -10,31 +10,11 @@ const DetalleCajaSesionModal = ({ ventaProductos, onClose }) => {
     (state) => state.reporte
   );
 
-  console.log("Productos en el componente:", productosVendidos);
-
   useEffect(() => {
-    // Cuando se abre el modal, busca los productos vendidos para esta sesión de caja
     if (ventaProductos && ventaProductos.id) {
       dispatch(fetchProductosVendidos(ventaProductos.id));
     }
   }, [dispatch, ventaProductos]);
-
-  // useEffect(() => {
-  //   if (ventaProductos?.id) {
-  //     console.log(
-  //       "Ejecutando fetchProductosVendidos para id:",
-  //       ventaProductos.id
-  //     );
-  //     dispatch(fetchProductosVendidos(ventaProductos.id));
-  //   }
-  // }, [dispatch, ventaProductos?.id]);
-
-  useEffect(() => {
-    console.log(
-      "Productos en el componente después de actualizar Redux:",
-      productosVendidos
-    );
-  }, [productosVendidos]);
 
   const handleExportExcel = async () => {
     try {
@@ -56,13 +36,11 @@ const DetalleCajaSesionModal = ({ ventaProductos, onClose }) => {
     }
   };
 
-  // Si no hay sesión de caja seleccionada, no muestra nada
   if (!ventaProductos) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-50 p-4">
       <div className="bg-white rounded-lg shadow-xl w-11/12 max-w-4xl max-h-[90vh] flex flex-col">
-        {/* Encabezado del Modal */}
         <div className="px-6 py-4 border-b flex justify-between items-center">
           <h2 className="text-2xl font-bold">
             Reporte de Productos Vendidos - Sesión de Caja
@@ -75,7 +53,6 @@ const DetalleCajaSesionModal = ({ ventaProductos, onClose }) => {
           </button>
         </div>
 
-        {/* Información de la Sesión de Caja */}
         <div className="px-6 py-4 bg-gray-100">
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -94,7 +71,9 @@ const DetalleCajaSesionModal = ({ ventaProductos, onClose }) => {
               </p>
               <p>
                 <strong>Fecha Cierre:</strong>{" "}
-                {new Date(ventaProductos.fechaHoraCierre).toLocaleString()}
+                {ventaProductos.fechaHoraApertura
+                  ? new Date(ventaProductos.fechaHoraCierre).toLocaleString()
+                : "abierta"}
               </p>
               <p>
                 <strong>Monto de Apertura: </strong> Bs.{" "}
@@ -102,7 +81,7 @@ const DetalleCajaSesionModal = ({ ventaProductos, onClose }) => {
               </p>
               <p>
                 <strong>Monto de Cierre:</strong> Bs.{" "}
-                {ventaProductos.saldoFinal.toFixed(2)}
+                {(ventaProductos.saldoFinal || 0).toFixed(2)}
               </p>
             </div>
           </div>

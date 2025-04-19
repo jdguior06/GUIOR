@@ -9,18 +9,16 @@ const VentasPedidosPage = () => {
   const navigate = useNavigate();
 
   const { cajaSesion } = useSelector((state) => state.cajaSesion);
-  console.log("id de la sesion de caja :", cajaSesion.sesion.id  );
-  const { ventas, loading } = useSelector((state) => state.venta); // asume slice ventas
+  const { ventas, loading } = useSelector((state) => state.venta); 
 
   useEffect(() => {
     if (cajaSesion?.sesion.id) {
-      console.log("id de la sesion de caja :", cajaSesion.sesion.id);
       dispatch(obtenerVentaPorSesionDeCaja(cajaSesion.sesion.id));
     }
   }, [cajaSesion, dispatch]);
 
   const handleCargarPedido = (pedido) => {
-    const { caja_sesion_id } = pedido; // o los nombres reales
+    const { caja_sesion_id } = pedido; 
     navigate(`/cajas/sesion/${caja_sesion_id}`, { state: { pedido } });
   };
 

@@ -6,7 +6,9 @@ import { fetchCajasSesion } from "../reducers/cajaSesionSlice";
 
 const CajaSesionPage = () => {
   const dispatch = useDispatch();
-  const { cajaSesiones, loading, error } = useSelector((state) => state.cajaSesion);
+  const { cajaSesiones, loading, error } = useSelector(
+    (state) => state.cajaSesion
+  );
 
   const [selectedCajaSesion, setSelectedCajaSesion] = useState(null);
   const [currentPage, setCurrentPage] = useState(1); // Página actual
@@ -24,8 +26,10 @@ const CajaSesionPage = () => {
 
   const filteredCajaSesiones = cajaSesiones.filter((cajaSesion) => {
     const matchesSearchTerm =
-        cajaSesion.usuario?.nombre?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        cajaSesion.caja?.id.toString().includes(searchTerm);
+      cajaSesion.usuario?.nombre
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      cajaSesion.caja?.id.toString().includes(searchTerm);
 
     const cajaSesionDate = new Date(cajaSesion.fechaHoraApertura);
     const matchesDateRange =
@@ -35,7 +39,10 @@ const CajaSesionPage = () => {
     return matchesSearchTerm && matchesDateRange;
   });
 
-  const currentCajaSesiones = filteredCajaSesiones.slice(indexOfFirstItem, indexOfLastItem);
+  const currentCajaSesiones = filteredCajaSesiones.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
   const totalPages = Math.ceil(filteredCajaSesiones.length / itemsPerPage);
 
   // Calcular el total de las ventas filtradas
@@ -85,20 +92,26 @@ const CajaSesionPage = () => {
         <table className="table-auto w-full border-collapse border border-gray-300">
           <thead className="bg-gray-200">
             <tr>
-              {/* <th className="border border-gray-300 px-4 py-2">ID</th> */}
               <th className="border border-gray-300 px-4 py-2">Caja</th>
               <th className="border border-gray-300 px-4 py-2">Usuario</th>
-              <th className="border border-gray-300 px-4 py-2">Fecha de apertura</th>
-              <th className="border border-gray-300 px-4 py-2">Fecha de cierre</th>
-              <th className="border border-gray-300 px-4 py-2">Monto de apertura</th>
-              <th className="border border-gray-300 px-4 py-2">Monto de cierre</th>
+              <th className="border border-gray-300 px-4 py-2">
+                Fecha de apertura
+              </th>
+              <th className="border border-gray-300 px-4 py-2">
+                Fecha de cierre
+              </th>
+              <th className="border border-gray-300 px-4 py-2">
+                Monto de apertura
+              </th>
+              <th className="border border-gray-300 px-4 py-2">
+                Monto de cierre
+              </th>
               <th className="border border-gray-300 px-4 py-2">Acciones</th>
             </tr>
           </thead>
           <tbody>
             {currentCajaSesiones.map((cajaSesion) => (
               <tr key={cajaSesion.id}>
-                {/* <td className="border border-gray-300 px-4 py-2">{cajaSesion.id}</td> */}
                 <td className="border border-gray-300 px-4 py-2">
                   {cajaSesion.caja?.nombre || "Anónimo"}
                 </td>
@@ -106,32 +119,40 @@ const CajaSesionPage = () => {
                   {cajaSesion.usuario?.nombre || "Anónimo"}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {new Date(cajaSesion.fechaHoraApertura).toLocaleString("es-ES", {
-                    year: "numeric",
-                    month: "numeric",
-                    day: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit",
-                    hour12: false,
-                  })}
+                  {new Date(cajaSesion.fechaHoraApertura).toLocaleString(
+                    "es-ES",
+                    {
+                      year: "numeric",
+                      month: "numeric",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                      hour12: false,
+                    }
+                  )}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {new Date(cajaSesion.fechaHoraCierre).toLocaleString("es-ES", {
-                    year: "numeric",
-                    month: "numeric",
-                    day: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit",
-                    hour12: false,
-                  })}
+                  {cajaSesion.fechaHoraCierre
+                    ? new Date(cajaSesion.fechaHoraCierre).toLocaleString(
+                        "es-ES",
+                        {
+                          year: "numeric",
+                          month: "numeric",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          second: "2-digit",
+                          hour12: false,
+                        }
+                      )
+                    : "Abierta"}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  Bs. {cajaSesion.saldoInicial.toFixed(2)}
+                  Bs. {(cajaSesion.saldoInicial || 0).toFixed(2)}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  Bs. {cajaSesion.saldoFinal.toFixed(2)}
+                  Bs. {(cajaSesion.saldoFinal || 0).toFixed(2)}
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
                   <ThemedButton
@@ -180,12 +201,6 @@ const CajaSesionPage = () => {
           ))}
         </div>
       </div>
-
-      {/* <div className="mt-6 text-right">
-        <p className="text-xl font-bold">
-          Total de Ventas Filtradas: Bs. {totalCajaSesionesFiltradas.toFixed(2)}
-        </p>
-      </div> */}
 
       {selectedCajaSesion && (
         <DetalleCajaSesionModal

@@ -42,7 +42,8 @@ import Home from "./pages/Home";
 import CajaSesionPage from "./pages/CajaSesionPage";
 import ReporteProductosPage from "./pages/ReporteProductosPage";
 import ContraseñaPage from "./pages/ContraseñaPage";
-import VentasPedidosPage from "./pages/VentasPedidosPage";
+//import VentasPedidosPage from "./pages/VentasPedidosPage";
+import PedidosPage from "./pages/PedidosPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -152,7 +153,7 @@ function App() {
             />
             <Route
               path="Ventas-pedidos"
-              element={<VentasPedidosPage />}
+              element={<PedidosPage />}
             />
           </Route>
           {/* Ruta para cualquier otro acceso a rutas inválidas */}
