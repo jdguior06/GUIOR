@@ -489,7 +489,7 @@ export default function PedidosPage() {
                   {detalleVenta.detalleVentaList.map((detalle, index) => (
                     <tr key={index}>
                       <td className="px-4 py-2 whitespace-nowrap text-sm">
-                        {detalle.nombreProducto}
+                        {detalle.producto.nombre}
                       </td>
                       <td className="px-4 py-2 whitespace-nowrap text-sm">
                         {detalle.cantidad}
