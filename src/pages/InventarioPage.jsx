@@ -22,6 +22,8 @@ const InventarioPage = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedProductoAlmacen, setSelectedProductoAlmacen] = useState(null);
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     if (idAlmacen) {
       dispatch(fetchProductosAlmacen(idAlmacen));
@@ -38,6 +40,10 @@ const InventarioPage = () => {
     setOpenModal(false);
     dispatch(fetchProductosAlmacen(idAlmacen));
   };
+
+  const filteredProductos = productosAlmacen.filter((producto) =>
+    producto.producto.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (loading) {
     return (
@@ -70,6 +76,16 @@ const InventarioPage = () => {
         Ver Notas de Entrada
       </ThemedButton>
 
+      <div className="flex justify-between items-center mb-6">
+        <input
+          type="text"
+          placeholder="Buscar Producto"
+          className="border border-gray-300 rounded-lg py-2 px-4 w-1/2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-lg">
           <thead className="bg-gray-200">
@@ -91,13 +107,15 @@ const InventarioPage = () => {
             </tr>
           </thead>
           <tbody>
-            {productosAlmacen.length > 0 ? (
-              productosAlmacen.map((producto) => (
+            {filteredProductos.length > 0 ? (
+              filteredProductos.map((producto) => (
                 <tr
                   key={producto.id}
                   className="hover:bg-gray-100 transition-colors"
                 >
-                  <td className="py-3 px-6 border-b">{producto.producto.nombre}</td>
+                  <td className="py-3 px-6 border-b">
+                    {producto.producto.nombre}
+                  </td>
                   <td className="py-3 px-6 border-b">{producto.stock}</td>
                   <td className="py-3 px-6 border-b">
                     {new Date(producto.ultimaModificacion).toLocaleDateString(
@@ -114,8 +132,8 @@ const InventarioPage = () => {
                   </td>
                   <PermissionWrapper permission="PERMISO_AJUSTAR_STOCK">
                     <td className="py-3 px-6 border-b">
-                      <button 
-                        className="bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center w-8 h-8 rounded-full shadow-sm" 
+                      <button
+                        className="bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center w-8 h-8 rounded-full shadow-sm"
                         onClick={() => handleOpenModal(producto)}
                       >
                         <PencilSquareIcon className="h-4 w-4" />
