@@ -2,7 +2,7 @@ import axios from 'axios';
 import { clearAuth } from '../reducers/authSlice';
 
 const api = axios.create({
-  baseURL: 'https://guiorback-production.up.railway.app/guior',
+  baseURL: 'https://springboot-app-guior.onrender.com/guior',
   // baseURL: 'http://localhost:8080/guior',
 });
 

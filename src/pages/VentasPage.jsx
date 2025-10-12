@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { obtenerVentas } from "../reducers/ventaSlice";
+import { obtenerVentaPorId, obtenerVentas } from "../reducers/ventaSlice";
 import DetallesVentaModal from "../components/DetallesVentaModal";
 import ThemedButton from "../components/ThemedButton";
 
@@ -45,7 +45,12 @@ const VentasPage = () => {
   );
 
   const handleRowClick = (venta) => {
-    setSelectedVenta(venta);
+    // Cargar el detalle completo cuando se hace clic
+  dispatch(obtenerVentaPorId(venta.id)).then((result) => {
+    if (result.payload) {
+      setSelectedVenta(result.payload);
+    }
+  });
   };
 
   const handlePageChange = (pageNumber) => {
