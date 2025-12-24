@@ -504,7 +504,7 @@ const PosPage = () => {
               <option value="">Sin cliente (anónimo)</option>
               {filteredClientes.map((cliente) => (
                 <option key={cliente.id} value={cliente.id}>
-                  {cliente.email || "Sin Email"} - {cliente.nit || "Sin NIT"}
+                  {cliente.nombre || "Sin nombre"} - {cliente.email || "Sin Email"} - {cliente.nit || "Sin NIT"}
                 </option>
               ))}
             </select>

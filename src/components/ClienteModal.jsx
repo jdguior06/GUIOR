@@ -76,7 +76,7 @@ const ClienteModal = ({ open, onClose, selectedClient, onSave, isEditing }) => {
               onChange={onChange}
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               placeholder="Apellido"
-              required
+              // required
             />
           </div>
           <div>
@@ -104,7 +104,7 @@ const ClienteModal = ({ open, onClose, selectedClient, onSave, isEditing }) => {
               onChange={onChange}
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               placeholder="Número de Identificación Tributaria"
-              required
+              // required
             />
           </div>
 
